@@ -1,9 +1,9 @@
 {
-  "name": "React Native App For Image Search",
+  "name": "react-native-app-for-image-search",
   "version": "0.1.0",
   "devDependencies": {
-    "react-native-scripts": "0.0.29",
     "jest-expo": "^0.4.0",
+    "react-native-scripts": "0.0.29",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
