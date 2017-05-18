@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ListView } from 'react-native';
-import { PIXABAY_API_KEY } from './.secrets.env'
+import { StyleSheet, Text, View, TextInput, Image, ListView, TouchableHighlight } from 'react-native';
+import { PIXABAY_API_KEY } from './.secrets.env';
+import PhotoDetails from './PhotoDetails';
 
 export default class App extends Component {
   constructor() {
@@ -20,7 +21,7 @@ export default class App extends Component {
       .then((resJson) => resJson.hits)
       .then((foundImages) => {
         const newDataSource = dataSource.cloneWithRows(foundImages);
-        this.setState({ searchFor: '', dataSource: newDataSource })
+        this.setState({ searchFor: '', dataSource: newDataSource, selectedItem: {} })
       })
       .catch((error) => {
         console.error(error);
@@ -28,11 +29,11 @@ export default class App extends Component {
   }
 
   render() {
-    const { dataSource, searchFor } = this.state;
+    const { dataSource, searchFor, selectedItem } = this.state;
     return (
       <View style={styles.container}>
         <Text>Search For Something!</Text>
-        <Text>Recommendation: Cats!</Text>
+        <Text>We recommend cats!</Text>
         <TextInput
           placeholder="Enter something to search for!"
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -40,11 +41,17 @@ export default class App extends Component {
           onEndEditing={this.handleSearchQuery}
           value={searchFor}
         />
-        <ListView
-          enableEmptySections={true}
-          dataSource={dataSource}
-          renderRow={(rowData) => <Image style={{ width: 200, height: 200 }} source={{ uri: rowData.webformatURL }} />}
-        />
+        {selectedItem.webformatURL && <PhotoDetails {...this.state.selectedItem} />}
+        {!selectedItem.webformatURL &&
+          <ListView
+            enableEmptySections={true}
+            dataSource={dataSource}
+            renderRow={(rowData) => (
+              <TouchableHighlight onPress={() => this.setState({ selectedItem: rowData })}>
+                <Image style={{ width: 200, height: 200 }} source={{ uri: rowData.webformatURL }} />
+              </TouchableHighlight>
+              )}
+          />}
       </View>
     );
   }
