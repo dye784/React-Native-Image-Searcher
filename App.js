@@ -55,7 +55,7 @@ export default class App extends Component {
           onSubmitEditing={this.handleSearchQuery}
           value={searchFor}
         />
-        {home && <Image style={{ width: 300, height: 100 }} source={require('./react-native-logo.png')}/>}
+        {home && <Image style={styles.imageSize} source={require('./react-native-logo.png')}/>}
         {selectedItem.webformatURL && <PhotoDetails {...this.state.selectedItem} />}
         {!selectedItem.webformatURL &&
           <ListView
@@ -63,7 +63,10 @@ export default class App extends Component {
             dataSource={dataSource}
             renderRow={(rowData) => <ListItem rowData={rowData} selectItem={this.selectItem} />}
           />}
-          {selectedItem.webformatURL && <Button title="Back" color="#ED4956" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>}
+          {selectedItem.webformatURL &&
+            <View style={styles.buttonBackground}>
+              <Button title="Back" color="#FFF" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>
+            </View>}
       </View>
     );
   }
@@ -90,4 +93,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Helvetica Neue',
   },
+  imageSize: {
+    width: 300,
+    height: 100,
+  },
+  buttonBackground: {
+    backgroundColor: '#ED4956',
+    justifyContent: 'center',
+    width: 400,
+  }
 });
