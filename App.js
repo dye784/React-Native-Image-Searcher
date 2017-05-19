@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ListView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, ListView, TouchableHighlight, Button } from 'react-native';
 import { PIXABAY_API_KEY } from './.secrets.env';
 import PhotoDetails from './PhotoDetails';
 import ListItem from './ListItem';
@@ -33,6 +33,10 @@ export default class App extends Component {
     this.setState({ selectedItem: item })
   }
 
+  onPressGoBackToList = () => {
+    this.setState({ selectedItem: {} })
+  }
+
   render() {
     const { dataSource, searchFor, selectedItem } = this.state;
     return (
@@ -53,6 +57,7 @@ export default class App extends Component {
             dataSource={dataSource}
             renderRow={(rowData) => <ListItem rowData={rowData} selectItem={this.selectItem} />}
           />}
+          {selectedItem.webformatURL && <Button title="Back" color="#841584" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>}
       </View>
     );
   }
