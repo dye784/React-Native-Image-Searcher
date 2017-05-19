@@ -4,7 +4,7 @@ import { Text, View, Image, StyleSheet } from 'react-native';
 const PhotoDetails = ({ user, comments, downloads, tags, favorites, likes, views, webformatURL, imageHeight, imageWidth }) => {
   return (
     <View>
-      <Image style={{ width: 200, height: 200 }} source={{ uri: webformatURL }} />
+      <Image style={{ width: 350, height: 350 }} source={{ uri: webformatURL }} />
       <Text style={styles.baseText}>tags: {tags}</Text>
       <Text style={styles.baseText}>user: {user}</Text>
       <Text style={styles.baseText}>comments: {comments}</Text>
