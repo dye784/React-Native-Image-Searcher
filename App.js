@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, ListView, TouchableHighlight } from 'react-native';
 import { PIXABAY_API_KEY } from './.secrets.env';
 import PhotoDetails from './PhotoDetails';
+import ListItem from './ListItem';
 
 export default class App extends Component {
   constructor() {
@@ -28,6 +29,10 @@ export default class App extends Component {
       });
   }
 
+  selectItem = (item) => {
+    this.setState({ selectedItem: item })
+  }
+
   render() {
     const { dataSource, searchFor, selectedItem } = this.state;
     return (
@@ -46,11 +51,7 @@ export default class App extends Component {
           <ListView
             enableEmptySections={true}
             dataSource={dataSource}
-            renderRow={(rowData) => (
-              <TouchableHighlight onPress={() => this.setState({ selectedItem: rowData })}>
-                <Image style={{ width: 200, height: 200 }} source={{ uri: rowData.webformatURL }} />
-              </TouchableHighlight>
-              )}
+            renderRow={(rowData) => <ListItem rowData={rowData} selectItem={this.selectItem} />}
           />}
       </View>
     );
