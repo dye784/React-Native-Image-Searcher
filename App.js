@@ -12,6 +12,7 @@ export default class App extends Component {
       searchFor: '',
       dataSource: ds.cloneWithRows([]),
       selectedItem: {},
+      home: true,
     };
   }
 
@@ -22,7 +23,7 @@ export default class App extends Component {
       .then((resJson) => resJson.hits)
       .then((foundImages) => {
         const newDataSource = dataSource.cloneWithRows(foundImages);
-        this.setState({ searchFor: '', dataSource: newDataSource, selectedItem: {} })
+        this.setState({ searchFor: '', dataSource: newDataSource, selectedItem: {}, home: false })
       })
       .catch((error) => {
         console.error(error);
@@ -37,19 +38,24 @@ export default class App extends Component {
     this.setState({ selectedItem: {} })
   }
 
+  handleTextInput = (searchFor) => {
+    this.setState({ searchFor })
+  }
+
   render() {
-    const { dataSource, searchFor, selectedItem } = this.state;
+    const { dataSource, searchFor, selectedItem, home } = this.state;
     return (
       <View style={styles.container}>
-        <Text>Search For Something!</Text>
-        <Text>We recommend cats!</Text>
+        <Text style={styles.whiteText} >Search For Something!</Text>
+        <Text style={styles.whiteText} >We recommend cats!</Text>
         <TextInput
           placeholder="Enter something to search for!"
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={(searchFor) => this.setState({ searchFor })}
-          onEndEditing={this.handleSearchQuery}
+          style={styles.textInputStyles}
+          onChangeText={this.handleTextInput}
+          onSubmitEditing={this.handleSearchQuery}
           value={searchFor}
         />
+        {home && <Image style={{ width: 300, height: 100 }} source={require('./react-native-logo.png')}/>}
         {selectedItem.webformatURL && <PhotoDetails {...this.state.selectedItem} />}
         {!selectedItem.webformatURL &&
           <ListView
@@ -57,7 +63,7 @@ export default class App extends Component {
             dataSource={dataSource}
             renderRow={(rowData) => <ListItem rowData={rowData} selectItem={this.selectItem} />}
           />}
-          {selectedItem.webformatURL && <Button title="Back" color="#841584" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>}
+          {selectedItem.webformatURL && <Button title="Back" color="#ED4956" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>}
       </View>
     );
   }
@@ -67,8 +73,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#00A4D3',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  whiteText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontFamily: 'Helvetica Neue',
+  },
+  textInputStyles: {
+    height: 40,
+    borderColor: '#FFF',
+    borderWidth: 1,
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontFamily: 'Helvetica Neue',
   },
 });
