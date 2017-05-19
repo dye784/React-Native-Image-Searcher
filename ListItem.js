@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, Image, TouchableHighlight } from 'react-native';
+import { Image, TouchableHighlight } from 'react-native';
 
-const ListItem = (props) => {
+const ListItem = ({ rowData, selectItem }) => {
   return (
-    <TouchableHighlight onPress={() => props.selectItem(props.rowData)}>
-      <Image style={{ width: 200, height: 200 }} source={{ uri: props.rowData.webformatURL }} />
+    <TouchableHighlight onPress={() => selectItem(rowData)}>
+      <Image style={{ width: 200, height: 200 }} source={{ uri: rowData.webformatURL }} />
     </TouchableHighlight>
   )
 }

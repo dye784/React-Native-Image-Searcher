@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 
-const PhotoDetails = (props) => {
-  const { user, comments, downloads, tags, favorites, likes, views, webformatURL } = props;
+const PhotoDetails = ({ user, comments, downloads, tags, favorites, likes, views, webformatURL }) => {
   return (
     <View>
       <Image style={{ width: 200, height: 200 }} source={{ uri: webformatURL }} />
