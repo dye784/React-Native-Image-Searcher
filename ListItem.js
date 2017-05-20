@@ -1,13 +1,11 @@
 import React from 'react';
 import { Image, TouchableHighlight, StyleSheet } from 'react-native';
 
-const ListItem = ({ rowData, selectItem }) => {
-  return (
-    <TouchableHighlight onPress={() => selectItem(rowData)}>
-      <Image style={styles.imageSize} source={{ uri: rowData.webformatURL }} />
-    </TouchableHighlight>
-  );
-};
+const ListItem = ({ rowData, selectItem }) => (
+  <TouchableHighlight onPress={() => selectItem(rowData)}>
+    <Image style={styles.imageSize} source={{ uri: rowData.webformatURL }} />
+  </TouchableHighlight>
+);
 
 const styles = StyleSheet.create({
   imageSize: {
