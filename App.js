@@ -56,16 +56,26 @@ export default class App extends Component {
           value={searchFor}
         />
         {home && <Image style={styles.imageSize} source={require('./react-native-logo.png')}/>}
-        {selectedItem.webformatURL && <PhotoDetails {...this.state.selectedItem} />}
+        {selectedItem.webformatURL && <PhotoDetails {...selectedItem} />}
         {!selectedItem.webformatURL &&
           <ListView
             enableEmptySections={true}
             dataSource={dataSource}
-            renderRow={(rowData) => <ListItem rowData={rowData} selectItem={this.selectItem} />}
+            renderRow={(rowData) => (
+              <ListItem
+                rowData={rowData}
+                selectItem={this.selectItem}
+              />
+              )}
           />}
           {selectedItem.webformatURL &&
             <View style={styles.buttonBackground}>
-              <Button title="Back" color="#FFF" accessibilityLabel="Go Back to List" onPress={this.onPressGoBackToList}/>
+              <Button
+                title="Back"
+                color="#FFF"
+                accessibilityLabel="Go Back to List"
+                onPress={this.onPressGoBackToList}
+              />
             </View>}
       </View>
     );
