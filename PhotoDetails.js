@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, ScrollView, Image, StyleSheet } from 'react-native';
 
-const PhotoDetails = ({ user, comments, downloads, tags, favorites, likes, views, webformatURL, imageHeight, imageWidth }) => {
+const PhotoDetails = ({ user, comments, downloads, tags, favorites, likes, views, webformatURL, webformatHeight, webformatWidth }) => {
   const tagsWithHash = tags.split(', ').map(tag => `#${tag}`).join(' ');
   return (
     <ScrollView>
@@ -13,7 +13,7 @@ const PhotoDetails = ({ user, comments, downloads, tags, favorites, likes, views
       <Text style={styles.baseText}>{downloads} downloads</Text>
       <Text style={styles.baseText}>{favorites} favorites</Text>
       <Text style={styles.baseText}>{comments} comments</Text>
-      <Text style={styles.baseText}>Resolution: {`${imageWidth} x ${imageHeight}`}</Text>
+      <Text style={styles.baseText}>Resolution: {`${webformatWidth} x ${webformatHeight}`}</Text>
     </ScrollView>
   );
 };
