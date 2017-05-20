@@ -7,7 +7,7 @@ import ListItem from './ListItem';
 export default class App extends Component {
   constructor() {
     super();
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.webformatURL !== r2.webformatURL });
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.webformatURL !== r2.webformatURL });
     this.state = {
       searchFor: '',
       dataSource: ds.cloneWithRows([]),
@@ -46,8 +46,8 @@ export default class App extends Component {
     const { dataSource, searchFor, selectedItem, home } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.whiteText} >Search For Something!</Text>
-        <Text style={styles.whiteText} >We recommend cats!</Text>
+        <Text style={styles.whiteText}>Search For Something!</Text>
+        <Text style={styles.whiteText}>We recommend cats!</Text>
         <TextInput
           placeholder="Enter something to search for!"
           style={styles.textInputStyles}
@@ -68,15 +68,15 @@ export default class App extends Component {
               />
               )}
           />}
-          {selectedItem.webformatURL &&
-            <View style={styles.buttonBackground}>
-              <Button
-                title="Back"
-                color="#FFF"
-                accessibilityLabel="Go Back to List"
-                onPress={this.onPressGoBackToList}
-              />
-            </View>}
+        {selectedItem.webformatURL &&
+          <View style={styles.buttonBackground}>
+            <Button
+              title="Back"
+              color="#FFF"
+              accessibilityLabel="Go Back to List"
+              onPress={this.onPressGoBackToList}
+            />
+          </View>}
       </View>
     );
   }
