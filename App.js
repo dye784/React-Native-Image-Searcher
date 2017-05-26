@@ -3,31 +3,35 @@ import { StyleSheet, Text, View, TextInput, Image, ListView, TouchableHighlight,
 import { PIXABAY_API_KEY } from './.secrets.env';
 import PhotoDetails from './PhotoDetails';
 import ListItem from './ListItem';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 export default class App extends Component {
   constructor() {
     super();
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.webformatURL !== r2.webformatURL });
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
     this.state = {
       searchFor: '',
       dataSource: ds.cloneWithRows([]),
       selectedItem: {},
       home: true,
+      canLoadMoreContent: true,
+      page: 1,
+      perPage: 10,
     };
   }
 
   handleSearchQuery = () => {
-    const { dataSource, searchFor } = this.state
-    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${searchFor}&image_type=photo`)
+    const { dataSource, searchFor, perPage, page } = this.state
+    const newNumPages = perPage === 200 ? page + 1 : page;
+    const newNumPerPages = perPage + 10;
+    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${searchFor}&image_type=photo&page=${newNumPages}&per_page=${newNumPerPages}`)
       .then((res) => res.json())
       .then((resJson) => resJson.hits)
       .then((foundImages) => {
-        const newDataSource = dataSource.cloneWithRows(foundImages);
-        this.setState({ searchFor: '', dataSource: newDataSource, selectedItem: {}, home: false })
+        const newDataSource = dataSource.cloneWithRows([...dataSource, ...foundImages]);
+        this.setState({ dataSource: newDataSource, selectedItem: {}, home: false, page: newNumPages, perPage: newNumPerPages })
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => console.log(error));
   }
 
   selectItem = (item) => {
@@ -59,8 +63,12 @@ export default class App extends Component {
         {selectedItem.webformatURL && <PhotoDetails {...selectedItem} />}
         {!selectedItem.webformatURL &&
           <ListView
-            enableEmptySections={true}
+            renderScrollComponent={(props) => <InfiniteScrollView {...props} />}
             dataSource={dataSource}
+            onLoadMoreAsync={this.handleSearchQuery}
+            enableEmptySections={true}
+            canLoadMore={true}
+            distanceToLoadMore={5}
             renderRow={(rowData) => (
               <ListItem
                 rowData={rowData}
